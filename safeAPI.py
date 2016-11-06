@@ -101,16 +101,16 @@ class Safe:
             return False
 
     def revoke(self):
-	if self.is_authenticated:
-	    headers={}
-	    headers['Authorization'] = 'Bearer %s' % self.token
-	    r = requests.delete('http://localhost:8100/auth',headers=headers)
-	    if r.status_code == 200:
-	        return True
-	    else:
-	        return False
-	else:
-	    return True
+        if self.is_authenticated:
+            headers={}
+            headers['Authorization'] = 'Bearer %s' % self.token
+            r = requests.delete('http://localhost:8100/auth',headers=headers)
+            if r.status_code == 200:
+                return True
+            else:
+                return False
+        else:
+            return True
 
     def _get_saved_token(self):
         try:
@@ -235,25 +235,25 @@ class Safe:
             return True
         else:
             raise SafeException(r)
-	
+        
     def upload_file(self, safeFilePath, uploadFilepath, uploadFilename, newUploadName=None, encoding='latin-1'):
-	if newUploadName is None:
-	    newUploadName=uploadFilename
-	try:
-	    with open('%s/%s' % (uploadFilepath, uploadFilename),'rb') as f:
-		inputData=f.readlines()
-	    f.close()
-	    if type(inputData) == list:
-		innerData=inputData[0]
-		for i in range(len(inputData)-1):
-		    innerData+=inputData[i+1]
-	    else:
-		innerData = inputData
-	    dataFile=innerData.decode(encoding).encode('utf-8')
-	    path='nfs/file/%s/%s' % (safeFilePath, newUploadName)
-	    r = self._post_file(path,'nanu',dataFile)
-	except:
-	    return False
+        if newUploadName is None:
+            newUploadName=uploadFilename
+        try:
+            with open('%s/%s' % (uploadFilepath, uploadFilename),'rb') as f:
+                inputData=f.readlines()
+            f.close()
+            if type(inputData) == list:
+                innerData=inputData[0]
+                for i in range(len(inputData)-1):
+                    innerData+=inputData[i+1]
+            else:
+                innerData = inputData
+            dataFile=innerData.decode(encoding).encode('utf-8')
+            path='nfs/file/%s/%s' % (safeFilePath, newUploadName)
+            r = self._post_file(path,'nanu',dataFile)
+        except:
+            return False
         return r
     
     #safetest._request('POST','nfs/file/app/syncdata/bildtest',json.dumps(str(bildatei)))
@@ -266,15 +266,15 @@ class Safe:
     #f.write(nanu.content.decode('utf-8').encode('latin-1'))
 
     def download_file(self, safeFilePath, downloadFilepath, downloadFilename, newDownloadname=None, encoding='latin-1'):
-	if newDownloadname is None:
-	    newDownloadname = downloadFilename
-	try:
-	    with open('%s/%s' % (downloadFilepath, newDownloadname),'wb') as f:
-		f.write(self._get('nfs/file/%s/%s' % (safeFilePath, downloadFilename)).content.decode('utf-8').encode(encoding))
-	    f.close()
-	except:
-	    return False
-	return True
+        if newDownloadname is None:
+            newDownloadname = downloadFilename
+        try:
+            with open('%s/%s' % (downloadFilepath, newDownloadname),'wb') as f:
+                f.write(self._get('nfs/file/%s/%s' % (safeFilePath, downloadFilename)).content.decode('utf-8').encode(encoding))
+            f.close()
+        except:
+            return False
+        return True
 
     def read_file(self, rootPath, filePath):
         path = 'nfs/file/%s/%s' % (rootPath, filePath)
