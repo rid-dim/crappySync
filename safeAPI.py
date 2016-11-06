@@ -56,7 +56,7 @@ class Safe:
             headers['Authorization'] = 'Bearer %s' % self.token
         url = self._get_url(path)
         payload = json.dumps(payload)
-	r = requests.request(request,
+        r = requests.request(request,
             url,
             data=payload,
             headers=headers)
