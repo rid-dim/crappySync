@@ -1,6 +1,5 @@
 import json
 import sys
-import requests
 import safeAPI
 import hashlib
 import time
@@ -8,11 +7,8 @@ import datetime
 import os
 import threading
 import Queue
-#from os.path import expanduser
-#from math import *
 from PyQt4.QtCore import Qt
-from PyQt4.QtCore import pyqtSignal as Signal
-from PyQt4.QtGui import (QApplication, QDialog, QLineEdit, QTextBrowser,
+from PyQt4.QtGui import (QApplication, QDialog, QTextBrowser,
                          QVBoxLayout, QFileDialog, QSlider, QPushButton,
                          QHBoxLayout, QLabel)
 
@@ -75,7 +71,6 @@ class Form(QDialog):
                     #if new sync interval is set -> get this value and use it
                     try:
                         interval = q.get_nowait()
-                        lali=interval
                     except:
                         pass
                     
